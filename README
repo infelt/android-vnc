@@ -1,0 +1,46 @@
+1) Download the ARM GNU/Linux cross-compile toolkit from:
+
+http://www.codesourcery.com/gnu_toolchains/arm/download.html
+
+Install according to the instructions there.
+
+
+2) Install libvncserver:
+
+./configure --host=arm-none-linux-gnueabi --without-pthread --prefix=/opt/android
+make
+sudo make install
+
+
+3) Build a custom Android kernel using kbde.c, provided in the kernel directory
+of this project (TODO: Instructions).  Boot the custom kernel:
+
+emulator -kernel arch/arm/boot/zImage
+
+
+4) Build and install this project:
+
+./configure --host=arm-none-linux-gnueabi --with-libvncserver=/opt/android
+make
+
+(NOTE: You can ignore the warning about gethostbyname being statically linked.)
+
+adb push src/fbvncserver /data
+adb shell /data/fbvncserver
+
+
+5) Redirect Android ports:
+
+telnet localhost 5554
+redir add tcp:5900:5901
+
+(NOTE: The fbvncserver by default binds port 5901, not 5900!  Android already
+has a VNC server running on port 5900, but it sucks.)
+
+
+6) Connect from localhost:
+
+xvncviewer -noauto localhost
+
+(NOTE: Additional steps are required to connect externally, since Android's
+port redirection works only for the local interface).
