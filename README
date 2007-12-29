@@ -13,7 +13,16 @@ sudo make install
 
 
 3) Build a custom Android kernel using kbde.c, provided in the kernel directory
-of this project (TODO: Instructions).  Boot the custom kernel:
+of this project:
+
+Unpack linux-2.6.23-android-m3-rc20.tar.gz.
+cd kernel
+patch -p1 < ../android-vnc/kernel/linux-2.6.23-android-m3-rc20-kbde.patch
+make menuconfig
+[ ... enable KBDE under Drivers, Input device support, Keyboards ... ]
+CROSS_COMPILE=/opt/android/arm-2007q3/bin/arm-none-linux-gnueabi- make
+
+To boot the kernel:
 
 emulator -kernel arch/arm/boot/zImage
 
