@@ -18,6 +18,7 @@ of this project:
 Unpack linux-2.6.23-android-m3-rc20.tar.gz.
 cd kernel
 patch -p1 < ../android-vnc/kernel/linux-2.6.23-android-m3-rc20-kbde.patch
+adb pull /proc/config.gz . && gunzip config.gz && mv config .config
 make menuconfig
 [ ... enable KBDE under Drivers, Input device support, Keyboards ... ]
 CROSS_COMPILE=/opt/android/arm-2007q3/bin/arm-none-linux-gnueabi- make
@@ -25,6 +26,9 @@ CROSS_COMPILE=/opt/android/arm-2007q3/bin/arm-none-linux-gnueabi- make
 To boot the kernel:
 
 emulator -kernel arch/arm/boot/zImage
+
+For further reading, see:
+http://honeypod.blogspot.com/2007/12/compile-android-kernel-from-source.html
 
 
 4) Build and install this project:
