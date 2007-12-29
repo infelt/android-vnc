@@ -328,7 +328,7 @@ static unsigned char *keysym2scancodes(rfbBool down, rfbKeySym key, size_t *len)
         KEYSYM_CASE      (XK_KP_Page_Up,         KBDE_KEY_F1);
 
         KEYSYM_CASE_UD   (XK_F1,                 KBDE_KEY_F1);
-        KEYSYM_CASE_UD   (XK_F2,                 KBDE_KEY_F2);
+        KEYSYM_CASE_UD   (XK_F2,                 KBDE_KEY_WWWBack);
         KEYSYM_CASE_UD   (XK_F3,                 KBDE_KEY_F3);
         KEYSYM_CASE_UD   (XK_F4,                 KBDE_KEY_F4);
         KEYSYM_CASE_UD   (XK_F5,                 KBDE_KEY_F5);
