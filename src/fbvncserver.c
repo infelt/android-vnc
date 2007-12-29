@@ -23,10 +23,14 @@
 #include <sys/mman.h>
 #include <sys/ioctl.h>
 
+#include <sys/stat.h>
+#include <sys/sysmacros.h>             /* For makedev() */
+
 #include <fcntl.h>
 #include <linux/fb.h>
 
 #include <assert.h>
+#include <errno.h>
 
 /* libvncserver */
 #include "rfb/rfb.h"
@@ -120,7 +124,28 @@ static void cleanup_fb(void)
 static void init_kbde(void)
 {
 	if ((kbdfd = open(KBD_DEVICE, O_WRONLY)) < 0)
-		perror("open");
+	{
+		if (errno == ENOENT)
+		{
+			mode_t mode;
+			dev_t dev;
+
+			mode = S_IFCHR | 0666;
+			dev = makedev(11, 0);
+
+			if (mknod(KBD_DEVICE, mode, dev) != 0)
+				perror("mknod");
+			else
+			{
+				if ((kbdfd = open(KBD_DEVICE, O_WRONLY)) < 0)
+					perror("open");
+			}
+		}
+		else
+		{
+			perror("open");
+		}
+	}
 }
 
 static void cleanup_kbde(void)
